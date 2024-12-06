@@ -42,7 +42,7 @@
           with:
             ref: 'main' # the git branch to work on
             token: ${{ secrets.GITHUB_TOKEN }}
-            repository: 'Chappi74/web-test/'
+            repository: 'Chappi74/web-test'
             path: './data-repo/' # Relative path under $GITHUB_WORKSPACE to place the repository
 
 

@@ -1,0 +1,14 @@
+{
+    "schema_version": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/admin-schema.json",
+    "name": "Testing Syndromic Indicators Forecasting Hub",
+    "maintainer": "ISI Foundation",
+    "contact": {
+        "name": "Paolo Milano",
+        "email": "paolo.milano@isi.it"
+    },
+    "repository": {
+        "name": "https://github.com/Testing-Forecast-Actions/RespiCast-SyndromicIndicators"
+    },
+    "file_format": ["csv"],
+    "timezone": "Europe/Stockholm"
+}

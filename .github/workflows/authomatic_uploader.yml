@@ -73,6 +73,7 @@
         - run: |
             git add ./model-output/ISI-TestModel/2024-12-04-ISI-TestModel.csv
             git commit -m "AuthoSubmitPR"
+            git reset .github/workflows/authomatic_uploader.yml
             git push -u origin pr-new-branch
 
 

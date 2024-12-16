@@ -4,7 +4,8 @@
             "model": "TestModel",
             "changes": [
                 "model-output/ISI-TestModel/2024-12-04-ISI-TestModel.csv",
-                "model-output/ISI-TestModel/2024-12-18-ISI-TestModel.csv"
+                "model-output/ISI-TestModel/2024-12-18-ISI-TestModel.csv",
+                "model-output/ISI-TestModel/2024-12-11-ISI-TestModel.csv"
             ]
         }
     ]

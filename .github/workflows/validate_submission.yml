@@ -75,7 +75,7 @@ jobs:
         env: 
           pr_changes: ${{ steps.get_changed_files.outputs.all_changed_files }}          
         run: |
-          python ./tools/code/check_date_and_horizons.py --hub_path Sys.getenv("GITHUB_REPOSITORY")
+          python ./tools/code/check_date_and_horizons.py --hub_path $GITHUB_REPOSITORY
 
   
       - uses: r-lib/actions/setup-r@v2

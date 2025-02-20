@@ -1,0 +1,56 @@
+name: TestGenerateEnsemble
+
+on:
+
+  workflow_dispatch:
+
+
+jobs:
+  
+  ensemble_job:
+    runs-on: ubuntu-22.04
+    outputs:
+      changed_files:  ${{ steps.generate_ensemble.outputs.ensemble_file }}
+
+    steps:
+    # checkout repo
+    - uses: actions/checkout@v3
+      with: 
+        path: './repo/'
+
+    # Checkout the python tools repo
+    # -------------------------------------------      
+    - name: checkout python tools repo
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        repository: 'european-modelling-hubs/hub-tools'
+        ref: 'main'
+        path: './tools/'
+
+
+    # - name: Install lib curl
+    #   run: |
+    #     sudo apt-get update
+    #     sudo apt-get install libcurl4-openssl-dev        
+     
+    - uses: r-lib/actions/setup-r@v2
+      with:
+        install-r: false
+        use-public-rspm: true
+        
+    - name: Installing dependencies
+      run: |
+        install.packages("remotes")
+        install.packages("arrow", repos = c("https://apache.r-universe.dev", "https://cran.r-project.org"))
+        remotes::install_github("hubverse-org/hubData")
+        remotes::install_github("hubverse-org/hubEnsembles")
+        # install.packages("hubUtils", dependencies = TRUE)
+        # install.packages('hubData', repos = c('https://hubverse-org.r-universe.dev', 'https://cloud.r-project.org'))
+        # install.packages("hubEnsembles")
+        install.packages("dplyr")
+        install.packages("jsonlite")
+        install.packages("optparse")
+        install.packages("purrr")
+      shell: Rscript {0}
+      

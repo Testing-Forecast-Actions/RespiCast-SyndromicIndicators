@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-22.04
     outputs:
       changed_files:  ${{ steps.generate_ensemble.outputs.ensemble_file }}
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
     # checkout repo

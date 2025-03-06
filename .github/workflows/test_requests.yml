@@ -37,6 +37,11 @@ jobs:
         pip install requests==2.32.3
 
 
+
+    - name: Get start date time
+      run: echo "Starting time $(date +'%Y-%m-%dT%H:%M:%S')"
+
+
     - name: Invoke deployment hook
       id: invoke_webhook
       # env:
@@ -45,10 +50,13 @@ jobs:
         # webhook_secret: ${{ secrets.WEB_HOOK_SECRET }}
         # data: ${{ steps.get_changes.outputs.packageJson }}
         # data_type: "scoring"
-  
+        
       run: |
         echo "Invoke Python code" 
         python ./tools/code/requests_testing.py
 
-    - name: Debug only
-      run: echo "Test end" 
+
+    - name: Get end date time
+      run: |
+        echo "End time $(date +'%Y-%m-%dT%H:%M:%S')"
+        echo "Test end" 

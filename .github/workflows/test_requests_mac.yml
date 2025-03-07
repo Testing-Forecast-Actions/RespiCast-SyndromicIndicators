@@ -1,0 +1,63 @@
+name: TestRequests
+
+on:
+
+  workflow_dispatch:
+
+
+jobs:
+  
+  ensemble_job:
+    runs-on: macos-13
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+
+    - name: Debug only
+      run: echo "Checkout tools repo" 
+
+    # Checkout the python tools repo
+    # -------------------------------------------      
+    - name: checkout python tools repo
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        repository: 'Testing-Forecast-Actions/Testing-Tools'
+        ref: 'main'
+        path: './tools/'
+
+    
+    # eventually install additional packages
+    # installing requests specific version because the one installed with 
+    # the os (2.31.0) can casue issues with timeout scenario
+    # - name: Installing python additional packages
+    #   run: |
+    #     echo "Installing additional packages" 
+    #     pip install requests==2.32.3
+
+
+
+    - name: Get start date time
+      run: echo "Starting time $(date +'%Y-%m-%dT%H:%M:%S')"
+
+
+    - name: Invoke deployment hook
+      id: invoke_webhook
+      env:
+        # disease_name: ${{ vars.DISEASE_NAME }}
+        # webhook_url: ${{ secrets.WEB_HOOK_URL }}
+        # webhook_secret: ${{ secrets.WEB_HOOK_SECRET }}
+        # data: ${{ steps.get_changes.outputs.packageJson }}
+        # data_type: "scoring"
+        time_out: 10
+        
+      run: |
+        echo "Invoke Python code" 
+        python ./tools/code/requests_testing.py
+
+
+    - name: Get end date time
+      run: |
+        echo "End time $(date +'%Y-%m-%dT%H:%M:%S')"
+        echo "Test end" 

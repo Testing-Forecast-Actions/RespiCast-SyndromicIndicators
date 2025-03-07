@@ -44,12 +44,14 @@ jobs:
 
     - name: Invoke deployment hook
       id: invoke_webhook
-      # env:
+      env:
         # disease_name: ${{ vars.DISEASE_NAME }}
         # webhook_url: ${{ secrets.WEB_HOOK_URL }}
         # webhook_secret: ${{ secrets.WEB_HOOK_SECRET }}
         # data: ${{ steps.get_changes.outputs.packageJson }}
         # data_type: "scoring"
+        r_time_out: "300"
+        time_out: 330
         
       run: |
         echo "Invoke Python code" 

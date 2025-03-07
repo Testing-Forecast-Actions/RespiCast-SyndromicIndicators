@@ -55,7 +55,7 @@ jobs:
         # webhook_secret: ${{ secrets.WEB_HOOK_SECRET }}
         # data: ${{ steps.get_changes.outputs.packageJson }}
         # data_type: "scoring"
-        time_out: "400"
+        time_out: "200"
         
       run: |
         echo "Invoke Python code" 

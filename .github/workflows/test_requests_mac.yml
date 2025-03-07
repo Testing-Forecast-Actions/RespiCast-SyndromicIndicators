@@ -43,7 +43,7 @@ jobs:
 
     - name: Install requests
       run: |
-        echo "Brew installing requests
+        echo "Brew installing requests"
         brew install python-requests
 
     - name: Invoke deployment hook

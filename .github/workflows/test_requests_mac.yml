@@ -43,9 +43,10 @@ jobs:
 
     - name: Install requests
       run: |
-        echo "Brew installing requests"
-        brew install python-requests
+        echo "Pip installing requests"
+        pip install requests==2.32.3
 
+        
     - name: Invoke deployment hook
       id: invoke_webhook
       env:

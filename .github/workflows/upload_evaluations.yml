@@ -1,4 +1,4 @@
-name: ScoringUpload
+name: EvaluationsUpload
 
 on:
   workflow_run:

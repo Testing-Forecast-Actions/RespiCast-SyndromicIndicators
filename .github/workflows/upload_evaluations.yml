@@ -99,7 +99,7 @@ jobs:
           data: ${{ steps.get_changes.outputs.packageJson }}
         
         run: |
-          python ./tools/code/update_and_clear.py --hub_path "./repo" --tmp_folder ".github/temp_eval"
+          python ./tools/code/upload_and_clear.py --hub_path "./repo" --tmp_folder ".github/temp_eval"
 
       # # Trigger server-side updating and UI deploy
       # # --------------------------------------------

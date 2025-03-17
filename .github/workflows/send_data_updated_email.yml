@@ -1,0 +1,35 @@
+name: SendDataUpdatedEmail
+
+on:
+  workflow_run:
+    workflows: [TruthUpload]
+      
+    types:
+      - completed  
+
+  workflow_dispatch:
+
+jobs:
+  scheduled-submit:
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.repository_owner == 'european-modelling-hubs' }}
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Checkout the python tools repo
+      # -------------------------------------------      
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Send email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "Nuovo aggiornamento nel repository!"
+          body: "Ciao,\n\nAbbiamo appena aggiornato il repository. Controlla le modifiche!\n\nSaluti,\nIl team."
+          to: paolo.milano@gmail.com  # Sostituisci con la mailing list reale
+          from: "Respicast Team <respicast@isi.it>"
+          content_type: text/plain

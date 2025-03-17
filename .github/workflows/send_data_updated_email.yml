@@ -30,6 +30,7 @@ jobs:
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: "Nuovo aggiornamento nel repository!"
           body: "Ciao,\n\nAbbiamo appena aggiornato il repository. Controlla le modifiche!\n\nSaluti,\nIl team."
-          to: paolo.milano@gmail.com  # Sostituisci con la mailing list reale
+          # to: paolo.milano@gmail.com  # Sostituisci con la mailing list reale
+          to: test-updates-list
           from: "Respicast Team <respicast@isi.it>"
           content_type: text/plain

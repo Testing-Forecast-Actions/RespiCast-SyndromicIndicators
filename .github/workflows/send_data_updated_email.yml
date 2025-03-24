@@ -16,11 +16,39 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+
+      # Install Python
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+
+         
       # Checkout the python tools repo
       # -------------------------------------------      
       - name: Checkout repository
         uses: actions/checkout@v4
+        
 
+      # Checkout the python tools repo
+      # used to verify the PR changes 
+      # ------------------------------------------
+      - name: checkout python tools repo
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: 'Testing-Forecast-Actions/Testing-Tools'
+          ref: 'main'
+          path: tools
+
+
+      # Check if some submission is outside allowed folders
+      - name: Extract Mailing List
+        id: extract_from_metadata
+        run: |
+          python ./tools/code/extract_emails.py --folder_path "model-metadata"  "--exclusions" "respicast-hubEnsemble.yml respicast-quantileBaseline.yml"
+        
+        
       - name: Send email
         uses: dawidd6/action-send-mail@v3
         with:
@@ -31,6 +59,7 @@ jobs:
           subject: "Nuovo aggiornamento nel repository!"
           body: "Ciao,\n\nAbbiamo appena aggiornato il repository. Controlla le modifiche!\n\nSaluti,\nIl team."
           # to: paolo.milano@gmail.com  # Sostituisci con la mailing list reale
-          to: ${{ secrets.EMAIL_RECIPIENTS }}
+          # to: ${{ secrets.EMAIL_RECIPIENTS }}
+          to: ${{ steps.extract_from_metadata.outputs.email_list }}
           from: "Respicast Team <respicast@isi.it>"
           content_type: text/plain

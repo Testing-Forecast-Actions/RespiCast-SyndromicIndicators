@@ -2,7 +2,7 @@ name: SendDataUpdatedEmail
 
 on:
   workflow_run:
-    workflows: [TruthUpload]
+    workflows: [TestRequests]
       
     types:
       - completed  
@@ -16,6 +16,34 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+
+
+      - name: Get previous workflow run
+        id: get_previous_run
+        if: github.event.schedule != '00 18 * * 5'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const response = await github.rest.actions.listWorkflowRuns({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'test_requests.yml',
+              per_page: 1,
+            });
+            const lastRun = response.data.workflow_runs[0];
+            core.setOutput('conclusion', lastRun.conclusion || 'no_run'); 
+
+
+      - name: Debug
+        run: |
+          echo "Previous run result: ${{ steps.get_previous_run.outputs.conclusion }}"
+          
+      - name: Cancel workflow if last run was not successful 
+        if: ${{ steps.get_previous_run.outputs.conclusion == 'success' }}
+        run: |
+          echo "Previous run was successful. No need to run the workflow today."
+          exit 0 # Stop workflow run
+
 
       # Install Python
       - name: Set up Python

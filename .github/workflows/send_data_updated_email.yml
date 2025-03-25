@@ -37,11 +37,29 @@ jobs:
       - name: Debug
         run: |
           echo "Previous run result: ${{ steps.get_previous_run.outputs.conclusion }}"
+
+      - name: Send warning email to admin
+        if: ${{ steps.get_previous_run.outputs.conclusion != 'success' }}
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "Nuovo aggiornamento nel repository!"
+          body: "Ciao,\n\nAbbiamo appena aggiornato il repository. Controlla le modifiche!\n\nSaluti,\nIl team."
+          # to: paolo.milano@gmail.com  # Sostituisci con la mailing list reale
+          # to: ${{ secrets.EMAIL_RECIPIENTS }}
+          to: ${{ steps.extract_from_metadata.outputs.email_list }}
+          from: "Respicast Team <respicast@isi.it>"
+          content_type: text/plain
+
+
           
       - name: Cancel workflow if last run was not successful 
-        if: ${{ steps.get_previous_run.outputs.conclusion == 'success' }}
+        if: ${{ steps.get_previous_run.outputs.conclusion != 'success' }}
         run: |
-          echo "Previous run was successful. No need to run the workflow today."
+          echo "Previous run was NOT successful. Not sending emails ."
           exit 0 # Stop workflow run
 
 
@@ -81,7 +99,8 @@ jobs:
           python ./tools/code/extract_emails.py --folder_path "model-metadata"  "--exclusions" "respicast-hubEnsemble.yml respicast-quantileBaseline.yml"
         
         
-      - name: Send email
+      - name: Send email to teams
+        if: github.event.schedule != '00 18 * * 5'
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com

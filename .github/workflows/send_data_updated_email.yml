@@ -69,6 +69,10 @@ jobs:
           ref: 'main'
           path: tools
 
+      - name: install deps
+        run: |
+          pip install PyYAML
+
 
       # Check if some submission is outside allowed folders
       - name: Extract Mailing List

@@ -16,8 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-
-
+    
       - name: Get previous workflow run
         id: get_previous_run
         # if: github.event.schedule != '00 18 * * 5'
@@ -46,11 +45,9 @@ jobs:
           server_port: 587
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: "Nuovo aggiornamento nel repository!"
-          body: "Ciao,\n\nAbbiamo appena aggiornato il repository. Controlla le modifiche!\n\nSaluti,\nIl team."
-          # to: paolo.milano@gmail.com  # Sostituisci con la mailing list reale
-          # to: ${{ secrets.EMAIL_RECIPIENTS }}
-          to: ${{ steps.extract_from_metadata.outputs.email_list }}
+          subject: "RespiCast-SyndromicIndicators - Target data error!"
+          body: "Hi,\n\nAn error occurred during ERVISS data import process. Not sending data updated email to teams!\n\nRespiCast tech team."
+          to: paolo.milano@gmail.com,paolo.milano@isi.it  # Sostituisci con la mailing list reale
           from: "Respicast Team <respicast@isi.it>"
           content_type: text/plain
 
@@ -59,7 +56,7 @@ jobs:
       - name: Cancel workflow if last run was not successful 
         if: ${{ steps.get_previous_run.outputs.conclusion != 'success' }}
         run: |
-          echo "Previous run was NOT successful. Not sending emails ."
+          echo "Check run was NOT successful. Not sending emails."
           exit 0 # Stop workflow run
 
 

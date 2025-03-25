@@ -20,7 +20,7 @@ jobs:
 
       - name: Get previous workflow run
         id: get_previous_run
-        if: github.event.schedule != '00 18 * * 5'
+        # if: github.event.schedule != '00 18 * * 5'
         uses: actions/github-script@v6
         with:
           script: |

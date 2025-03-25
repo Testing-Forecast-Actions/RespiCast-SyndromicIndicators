@@ -57,7 +57,7 @@ jobs:
         if: ${{ steps.get_previous_run.outputs.conclusion != 'success' }}
         run: |
           echo "Check run was NOT successful. Not sending emails."
-          exit 0 # Stop workflow run
+          exit 1 # Stop workflow run
 
 
       # Install Python

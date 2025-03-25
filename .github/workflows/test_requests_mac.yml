@@ -38,6 +38,9 @@ jobs:
 
 
 
+    - name: Fail
+      run: exit 1
+
     - name: Get start date time
       run: echo "Starting time $(date +'%Y-%m-%dT%H:%M:%S')"
 

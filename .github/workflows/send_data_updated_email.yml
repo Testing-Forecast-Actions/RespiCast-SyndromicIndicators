@@ -104,10 +104,10 @@ jobs:
           server_port: 587
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: "Nuovo aggiornamento nel repository!"
-          body: "Ciao,\n\nAbbiamo appena aggiornato il repository. Controlla le modifiche!\n\nSaluti,\nIl team."
+          subject: "RespiCast Data Update"
+          body: ${{ secrets.EMAIL_TEXT }}
           # to: paolo.milano@gmail.com  # Sostituisci con la mailing list reale
-          # to: ${{ secrets.EMAIL_RECIPIENTS }}
-          to: ${{ steps.extract_from_metadata.outputs.email_list }}
+          to: paolo.milano@gmail.com
+          bcc: ${{ steps.extract_from_metadata.outputs.email_list }}
           from: "Respicast Team <respicast@isi.it>"
           content_type: text/plain

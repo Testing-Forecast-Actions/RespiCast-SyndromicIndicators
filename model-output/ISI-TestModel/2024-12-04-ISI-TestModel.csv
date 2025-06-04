@@ -1,5 +1,5 @@
 origin_date,target,target_end_date,horizon,location,output_type,output_type_id,value
-2024-12-04,ILI incidence,2024-12-01,1,AT,quantile,0.01,1143.00
+2024-12-04,ILI incidence,2024-12-01,1,AT,quantile,0.01,1143.0
 2024-12-04,ILI incidence,2024-12-08,2,AT,quantile,0.01,739.04
 2024-12-04,ILI incidence,2024-12-15,3,AT,quantile,0.01,450.88
 2024-12-04,ILI incidence,2024-12-22,4,AT,quantile,0.01,266.48

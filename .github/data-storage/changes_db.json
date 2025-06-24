@@ -1,11 +1,31 @@
 {
+    "ECDC": [
+        {
+            "model": "SARIMA",
+            "changes": [
+                "model-output/ECDC-SARIMA/2025-06-25-ECDC-SARIMA.csv"
+            ]
+        },
+        {
+            "model": "soca_simplex",
+            "changes": [
+                "model-output/ECDC-soca_simplex/2025-06-25-ECDC-soca_simplex.csv"
+            ]
+        }
+    ],
+    "safinea": [
+        {
+            "model": "PRFM",
+            "changes": [
+                "model-output/safinea-PRFM/2025-06-25-safinea-PRFM.csv"
+            ]
+        }
+    ],
     "ISI": [
         {
-            "model": "TestModel",
+            "model": "FluBcast",
             "changes": [
-                "model-output/ISI-TestModel/2024-12-04-ISI-TestModel.csv",
-                "model-output/ISI-TestModel/2024-12-18-ISI-TestModel.csv",
-                "model-output/ISI-TestModel/2024-12-11-ISI-TestModel.csv"
+                "model-output/ISI-FluBcast/2025-06-25-ISI-FluBcast.csv"
             ]
         }
     ]

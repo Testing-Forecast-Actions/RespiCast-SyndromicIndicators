@@ -3,13 +3,13 @@ name: CheckIntermediateRun(R)
 on:
   workflow_dispatch:
 
-  schedule:
-   - cron: '30 22 * * 3'  
+  # schedule:
+  #  - cron: '30 22 * * 3'  
 
 jobs:
   scheduled-submit:
     # if: github.repository_owner == 'european-modelling-hubs'
-    if: github.repository_owner == 'Testing-Forecast-Actions/RespiCast-SyndromicIndicators'
+    # if: github.repository_owner == 'Testing-Forecast-Actions/RespiCast-SyndromicIndicators'
     runs-on: ubuntu-latest
     
     steps:

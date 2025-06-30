@@ -10,7 +10,7 @@ on:
 jobs:
   scheduled-submit:
     # if: github.repository_owner == 'european-modelling-hubs'
-    if: github.repository_owner == 'Testing-Forecast-Actions/RespiCast-SyndromicIndicators'
+    if: github.repository_owner == 'Testing-Forecast-Actions'
     runs-on: ubuntu-latest
     
     steps:

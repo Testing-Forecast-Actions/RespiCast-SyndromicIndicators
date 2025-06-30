@@ -60,7 +60,7 @@ jobs:
   # ---------------------------------------------------------------------------------------
   baseline_job:
     needs: verify_baseline_job
-    if: ${{ github.repository_owner == 'Testing-Forecast-Actions' && needs.verify_baseline_job.outputs.baseline_exists == 'true'}} 
+    if: ${{ github.repository_owner == 'Testing-Forecast-Actions' && needs.verify_baseline_job.outputs.baseline_exists == 'false'}} 
     outputs:
       changed_files:  ${{ steps.compute_baseline.outputs.baseline_file }}  
     

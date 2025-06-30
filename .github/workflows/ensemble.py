@@ -9,8 +9,7 @@ on:
       
     types:
       - completed
-
-
+    
 jobs:
   
   ensemble_job:

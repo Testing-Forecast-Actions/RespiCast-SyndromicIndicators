@@ -1,18 +1,18 @@
-name: GenerateEnsemble
+name: GenerateBaseline 
 
 on:
 
   workflow_dispatch:
 
   workflow_run:
-    workflows: [PersistChangesToJsonDB]
+    workflows: [CheckIntermediateRun(R)]
       
     types:
       - completed
     
 jobs:
-  
-  verify_ensemble_job:
+
+  verify_baseline_job:
     if: ${{ github.event.workflow_run.conclusion == 'success' && github.repository_owner == 'Testing-Forecast-Actions' }}
     runs-on: ubuntu-latest
     outputs: 
@@ -54,3 +54,65 @@ jobs:
       id: check_baseline
       run: |
         python ./tools/code/FH_current_baseline_exists.py --hub_path ./repo
+
+  
+  # 
+  # ---------------------------------------------------------------------------------------
+  baseline_job:
+    needs: verify_baseline_job
+    if: ${{ github.repository_owner == 'Testing-Forecast-Actions' && needs.verify_baseline_job.outputs.baseline_exists == 'true'}} 
+    outputs:
+      changed_files:  ${{ steps.compute_baseline.outputs.baseline_file }}  
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+
+    # Checkout the python tools repo
+    # -------------------------------------------      
+    - name: checkout python tools repo
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        repository: 'Testing-Forecast-Actions/Testing-Tools'
+        ref: 'main'
+        path: './tools/'
+
+    # Checkout the data repository
+    # -------------------------------------------      
+    - name: checkout data repo
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        repository: 'Testing-Forecast-Actions/RespiCast-SyndromicIndicators'
+        ref: 'main'
+        path: './repo/'
+    
+    # Run Pyton code
+    # -------------------------
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10' 
+    
+    - run: pip install pandas numpy==1.22.4
+    
+    - name: compute baseline
+      id: compute_baseline
+      
+      run: |
+        echo "here goes compute baseline code"
+        echo "secret-number=file_name1" >> "$GITHUB_OUTPUT"
+        
+
+  call-persisting-wf:
+    needs: baseline_job
+    if: ${{ github.repository_owner == 'Testing-Forecast-Actions' }}
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: do something
+        run: |
+          echo "Got output from baselinejob: ${{ needs.baseline_job.outputs.changed_files }} "
+
+    

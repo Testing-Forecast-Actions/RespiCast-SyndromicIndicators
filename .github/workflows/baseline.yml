@@ -13,7 +13,7 @@ on:
 jobs:
 
   verify_baseline_job:
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.repository_owner == 'european-modelling-hubs' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.repository_owner == 'Testing-Forecast-Actions' }}
     runs-on: ubuntu-latest
     outputs: 
       baseline_exists: ${{ steps.check_baseline.outputs.bl_exists == 'exists' }}
@@ -26,7 +26,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        repository: 'european-modelling-hubs/hub-tools'
+        repository: 'Testing-Forecast-Actions/Testing-Tools'
         ref: 'main'
         path: './tools/'
 
@@ -36,7 +36,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        repository: 'european-modelling-hubs/RespiCast-SyndromicIndicators'
+        repository: 'Testing-Forecast-Actions/RespiCast-SyndromicIndicators'
         ref: 'main'
         path: './repo/'
 
@@ -60,7 +60,7 @@ jobs:
   # ---------------------------------------------------------------------------------------
   baseline_job:
     needs: verify_baseline_job
-    if: ${{ github.repository_owner == 'european-modelling-hubs' && needs.verify_baseline_job.outputs.baseline_exists == 'true'}} 
+    if: ${{ github.repository_owner == 'Testing-Forecast-Actions' && needs.verify_baseline_job.outputs.baseline_exists == 'true'}} 
     outputs:
       changed_files:  ${{ steps.compute_baseline.outputs.baseline_file }}  
     
@@ -74,7 +74,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        repository: 'european-modelling-hubs/hub-tools'
+        repository: 'Testing-Forecast-Actions/Testing-Tools'
         ref: 'main'
         path: './tools/'
 
@@ -84,7 +84,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        repository: 'european-modelling-hubs/RespiCast-SyndromicIndicators'
+        repository: 'Testing-Forecast-Actions/RespiCast-SyndromicIndicators'
         ref: 'main'
         path: './repo/'
     
@@ -98,25 +98,21 @@ jobs:
     
     - name: compute baseline
       id: compute_baseline
+      
       run: |
-        python ./tools/code/quantile_baseline.py --hub_path ./repo --targets "ILI_incidence ARI_incidence" --symmetrize True --nsamples 10000 --horizon 4 --team_abbr "respicast" --model_abbr "quantileBaseline" --submission_end_weekday 2
-
-    - name: Commit data repo changes
-      uses: EndBug/add-and-commit@v7
-      with: 
-          cwd: './repo'
-          message: "Update data storage"
-          default_author: github_actions
-          push: true
-
+        echo "here goes compute baseline code"
+        echo "secret-number=file_name1" >> "$GITHUB_OUTPUT"
+        
 
   call-persisting-wf:
     needs: baseline_job
-    if: ${{ github.repository_owner == 'european-modelling-hubs' }}
-    uses: european-modelling-hubs/RespiCast-SyndromicIndicators/.github/workflows/persist_changes.yml@main
-    with:
-      changes-list: ${{ needs.baseline_job.outputs.changed_files }}
+    if: ${{ github.repository_owner == 'Testing-Forecast-Actions' }}
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: do something
+        run: |
+          echo "Got output from baselinejob: ${{ needs.baseline_job.outputs.changed_files }} "
 
-    secrets:
-      envPAT: ${{ secrets.GITHUB_TOKEN }}      
-      
+    

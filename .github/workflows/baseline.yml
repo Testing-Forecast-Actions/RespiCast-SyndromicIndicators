@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
   workflow_run:
-    workflows: [ForecastUpload]
+    workflows: [CheckIntermediateRun(R)]
       
     types:
       - completed

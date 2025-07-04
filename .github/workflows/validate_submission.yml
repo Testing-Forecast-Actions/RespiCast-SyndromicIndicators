@@ -87,10 +87,15 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install libcurl4-openssl-dev libv8-dev
-          
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          packages: hubverse-org/hubValidations, any::sessioninfo
+
+
+      - name: Installing dependencies
+        run: |
+          install.packages("remotes")
+          install.packages("hubValidations", repos = c("https://hubverse-org.r-universe.dev", "https://cloud.r-project.org"))
+      # - uses: r-lib/actions/setup-r-dependencies@v2
+      #   with:
+      #     packages: hubverse-org/hubValidations, any::sessioninfo
       
       - name: Run validations
         env:

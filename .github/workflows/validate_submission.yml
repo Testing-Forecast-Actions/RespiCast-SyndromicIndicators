@@ -92,7 +92,8 @@ jobs:
       - name: Installing dependencies
         run: |
           install.packages("remotes")
-          install.packages("hubValidations", repos = c("https://hubverse-org.r-universe.dev", "https://cloud.r-project.org"))
+          install.packages("hubValidations",  repos = c("https://hubverse-org.r-universe.dev", "https://cloud.r-project.org"))
+        shell: Rscript {0}
       # - uses: r-lib/actions/setup-r-dependencies@v2
       #   with:
       #     packages: hubverse-org/hubValidations, any::sessioninfo

@@ -1,0 +1,24 @@
+name: ForecastPipeline
+
+on:
+  workflow_dispatch:
+    inputs:      
+      environment:
+        description: "Ambiente (dev|staging|prod)"
+        required: false
+        default: "prod"
+
+  # schedule:
+  #   - cron: '15 23 * * 3'
+
+jobs:
+
+  gen_baseline_job:
+    uses: ./.github/workflows/generate_baseline_pipelined.yml
+    secrets: inherit     # passa tutti i secrets del repo/org al figlio
+
+  gen_ensemble_job:
+    needs: gen_baseline_job
+    uses: ./.github/workflows/generate_ensemble_pipelined.yml
+    secrets: inherit
+
